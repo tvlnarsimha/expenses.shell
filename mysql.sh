@@ -9,7 +9,8 @@ G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
 
-VALIDATE() {
+VALIDATE() 
+{
     if [ $1 -ne 0 ]
     then 
       echo -e "$2...$R Failure $N"

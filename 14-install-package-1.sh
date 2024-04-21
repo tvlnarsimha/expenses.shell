@@ -9,6 +9,9 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "Please enter db password:"
+read -s mysql_root_password
+
 
 VALIDATE(){
    if [ $1 -ne 0 ]
@@ -43,10 +46,10 @@ VALIDATE $? "Starting MySQL Server"
 
 #Below code useful for idempotent nature
 
-mysql -h db.daws78s.online -uroot -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
+mysql -h db.daws78s.online -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
 if [ $? -ne 0 ]
 then 
-  mysql_secure_installation --set-root-pass ExpenseApp@1
+  mysql_secure_installation --set-root-pass ${mysql_root_password}
   VALIDATE &? "Mysql root password setup"
 else
   echo -e "MySql root password is already setup...$Y skipping $N "

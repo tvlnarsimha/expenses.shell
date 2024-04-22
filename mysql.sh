@@ -9,6 +9,9 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "Please enter the db password:"
+read mysql_root_password
+
 VALIDATE(){
    if [ $1 -ne 0 ]
     then
@@ -40,11 +43,11 @@ VALIDATE $? "Start Mysql server"
 #VALIDATE $? "Setting up the root password"
 
 #Below command will be useful for idempotent nature
-mysql -h db.tvlnarsimha.online -uroot -pExpenseApp@1 -e 'SHOW DATABASES;' &>>$LOGFILE
+mysql -h db.tvlnarsimha.online -uroot -p${mysql_root_password} -e 'SHOW DATABASES;' &>>$LOGFILE
 
 if [ $? -ne 0 ]
 then 
-   mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+   mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
    VALIDATE $? "Mysql root password set up"
  else
    echo -e "Mysql root password is already setup...$Y SKIPPING $N"
